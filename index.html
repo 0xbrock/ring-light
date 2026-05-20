@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <title>Ring Light</title>
+  <meta name="description" content="A customizable ring light for video calls, selfies and photography. Adjust intensity, color, size and background. Works offline.">
+  <meta name="theme-color" content="#000000">
+
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+
+  <!-- iOS standalone hints -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Ring Light">
+
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <!-- The light surface: ring (radial-gradient) or solid flood. Background shows through. -->
+  <div id="light" class="light" aria-hidden="true"></div>
+
+  <!-- Transient readout shown while dragging on the light. -->
+  <div id="hud" class="hud" aria-live="polite"></div>
+
+  <section id="controls" class="controls" aria-label="Ring light controls">
+    <div class="grip" aria-hidden="true"></div>
+
+    <div class="row">
+      <label for="intensity">Intensity <output id="intensityOut">85%</output></label>
+      <input type="range" id="intensity" min="0" max="100" step="1" value="85" aria-label="Light intensity">
+    </div>
+
+    <div class="row">
+      <span class="row-label">Color</span>
+      <div class="seg" role="group" aria-label="Color mode">
+        <button type="button" id="modeWhite" class="seg-btn" aria-pressed="true">White</button>
+        <button type="button" id="modeColor" class="seg-btn" aria-pressed="false">Color</button>
+      </div>
+    </div>
+
+    <div class="row" id="rowKelvin">
+      <label for="kelvin">Temperature <output id="kelvinOut">4800 K</output></label>
+      <input type="range" id="kelvin" min="2000" max="7000" step="50" value="4800" aria-label="Color temperature in kelvin">
+    </div>
+
+    <div class="row hidden" id="rowHue">
+      <label for="hue">Hue <output id="hueOut">0&deg;</output></label>
+      <input type="range" id="hue" min="0" max="360" step="1" value="0" aria-label="Hue">
+    </div>
+    <div class="row hidden" id="rowSat">
+      <label for="sat">Saturation <output id="satOut">100%</output></label>
+      <input type="range" id="sat" min="0" max="100" step="1" value="100" aria-label="Saturation">
+    </div>
+
+    <div class="row">
+      <span class="row-label">Shape</span>
+      <div class="seg" role="group" aria-label="Light shape">
+        <button type="button" id="shapeRing" class="seg-btn" aria-pressed="true">Ring</button>
+        <button type="button" id="shapeFlood" class="seg-btn" aria-pressed="false">Flood</button>
+      </div>
+    </div>
+
+    <div class="ring-only" id="ringOnly">
+      <div class="row">
+        <label for="radius">Size <output id="radiusOut">72%</output></label>
+        <input type="range" id="radius" min="10" max="100" step="1" value="72" aria-label="Ring size">
+      </div>
+      <div class="row">
+        <label for="thickness">Thickness <output id="thicknessOut">18%</output></label>
+        <input type="range" id="thickness" min="2" max="100" step="1" value="18" aria-label="Ring thickness">
+      </div>
+      <div class="row">
+        <label for="softness">Edge softness <output id="softnessOut">35%</output></label>
+        <input type="range" id="softness" min="0" max="100" step="1" value="35" aria-label="Ring edge softness">
+      </div>
+    </div>
+
+    <div class="row row-inline">
+      <label for="bg">Background</label>
+      <input type="color" id="bg" value="#000000" aria-label="Background color">
+    </div>
+
+    <div class="row footer">
+      <button type="button" id="fullscreenBtn" class="text-btn">Fullscreen</button>
+      <button type="button" id="resetBtn" class="text-btn">Reset</button>
+    </div>
+  </section>
+
+  <!-- First-run guidance (shown once). -->
+  <div id="hint" class="hint" hidden>
+    <div class="hint-card" role="dialog" aria-modal="true" aria-labelledby="hintTitle">
+      <h1 id="hintTitle">Ring Light</h1>
+      <ul>
+        <li><b>Tap</b> the screen to hide or show the controls.</li>
+        <li><b>Drag</b> on the light &mdash; up/down sets intensity, left/right sets color.</li>
+        <li>A web page can't exceed your device's brightness. For maximum light, also turn your screen brightness all the way up.</li>
+      </ul>
+      <p id="hintIOS" class="hint-ios" hidden>On iPhone, use <b>Share &rarr; Add to Home Screen</b> to run full-screen without the browser bar.</p>
+      <button type="button" id="hintOk" class="primary-btn">Got it</button>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
