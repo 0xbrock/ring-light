@@ -200,13 +200,17 @@ input[type="color"] {
   position: fixed;
   inset: 0;
   z-index: 10;
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
   background: rgba(0, 0, 0, .72);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+}
+/* Only flex when shown — otherwise an author `display` would override the
+   `hidden` attribute's built-in `display: none` and the modal would never close. */
+.hint:not([hidden]) {
+  display: flex;
 }
 .hint-card {
   max-width: 360px;
